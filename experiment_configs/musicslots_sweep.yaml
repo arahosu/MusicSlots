@@ -1,0 +1,39 @@
+method: grid
+metric:
+  goal: maximize
+  name: test_chord_acc
+parameters:
+  alpha_mask_type:
+    distribution: categorical
+    values:
+      - linear
+      - sigmoid
+      - softmax
+  dataset:
+    distribution: ctegorical
+    values:
+      - bach_chorales_multi_inst
+      - jazznet_multi_inst
+  num_slots:
+    value: 7
+  project:
+    value: MusicSlots
+  seed:
+    distribution: categorical
+    values:
+      - 0
+      - 12
+      - 22
+      - 32
+      - 42
+  time_stride:
+    distribution: categorical
+    values:
+      - 1
+      - 2
+  use_implicit:
+    distribution: categorical
+    values:
+      - "true"
+      - "false"
+program: train_slot_attention.py

@@ -1,0 +1,23 @@
+method: grid
+metric:
+  goal: maximize
+  name: test_chord_acc
+parameters:
+  dataset:
+    distribution: categorical
+    values:
+      - bach_chorales_multi_inst
+      - jazznet_multi_inst
+  num_workers:
+    value: 2
+  project:
+    value: baselines
+  seed:
+    distribution: categorical
+    values:
+      - 0
+      - 12
+      - 22
+      - 32
+      - 42
+program: train_supervised_baselines.py
