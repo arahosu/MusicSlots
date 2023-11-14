@@ -1,6 +1,6 @@
 # MusicSlots
 
-Official code repository for the paper "Unsupervised Musical Object Discovery from Audio" [NeurIPS workshop on Machine Learning for Audio, 2023]
+Official code repository for the paper "Unsupervised Musical Object Discovery from Audio" [NeurIPS workshop on Machine Learning for Audio, 2023] | [arXiv](https://arxiv.org/abs/2311.07534)
 
 ## Datasets
 
