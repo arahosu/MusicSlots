@@ -108,3 +108,16 @@ To reproduce the supervised model results in Table 2, run the following command:
 wandb sweep experiment_configs/supervised_sweep.yaml 
 wandb agent SWEEP_ID 
 ```
+
+## Citation
+
+Please consider citing our work if you use this work:
+
+```
+@inproceedings{gha2023musicslots,
+  title={Unsupervised Musical Object Discovery from Audio},
+  author={Joonsu Gha and Vincent Herrmann and Benjamin Grewe and J{\"u}rgen Schmidhuber and Anand Gopalakrishnan},
+  booktitle={NeurIPS Workshop on Machine Learning for Audio},
+  year={2023},
+}
+```
