@@ -10,7 +10,7 @@ parameters:
       - sigmoid
       - softmax
   dataset:
-    distribution: ctegorical
+    distribution: categorical
     values:
       - bach_chorales_multi_inst
       - jazznet_multi_inst
