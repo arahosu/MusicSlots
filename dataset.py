@@ -9,6 +9,7 @@ import glob
 import os
 import json
 import numpy as np
+import matplotlib.pyplot as plt
 from typing import Optional
 
 def custom_collate_fn(batch):
@@ -42,6 +43,127 @@ def int2chord(chord_int, note_list):
         return [note_list[note] for note in chord_int]
     else:
         return [0] * (4 - len(chord_int)) + [note_list[note] for note in chord_int]
+
+def plot_spectrogram(specgram, title=None, ylabel="freq_bin", savefig=None):
+    fig, axs = plt.subplots(1, 1)
+    axs.set_title(title or "Spectrogram (energy)")
+    axs.set_ylabel(ylabel)
+    axs.set_xlabel("frame")
+    # im = axs.imshow(librosa.power_to_db(specgram), origin="lower", aspect="auto")
+    im = axs.imshow(specgram, origin="lower", aspect="auto")
+    fig.colorbar(im, ax=axs)
+    if savefig is not None:
+        plt.savefig(savefig)
+    plt.show(block=False)
+
+def plot_multiple_spectrograms(specgrams: list,
+                               figsize: tuple,
+                               fontsize=None,
+                               title=None,
+                               suptitle=None,
+                               xlabel='Time',
+                               ylabel='Mel Bins',
+                               colorbar_label='Decibels / dB',
+                               aspect="auto"):
+    
+    fig, axs = plt.subplots(
+        1, len(specgrams), figsize=figsize)
+
+    vmin = np.min(get_vmin(specgrams))
+    vmax = np.max(get_vmax(specgrams))
+
+    if suptitle is not None:
+        plt.suptitle(
+            suptitle,
+            fontsize=int(36 * max(figsize) / 32) if fontsize is None else fontsize)
+    
+    for i, spec in enumerate(specgrams):
+        if title is not None:
+            assert len(title) == len(specgrams)
+            axs[i].set_title(title[i])
+        if i == 0:
+            axs[i].set_ylabel(ylabel)
+        else:
+            axs[i].set_yticks([])
+        axs[i].set_xlabel(xlabel)
+        im = axs[i].imshow(spec, origin="lower", aspect=aspect, vmin=vmin, vmax=vmax)
+    
+    fig.colorbar(im, ax=axs.ravel().tolist(), label=colorbar_label)
+    plt.show()
+    return fig
+
+def get_vmin(spec_list):
+    vmin = torch.inf
+    for spec in spec_list:
+        if np.min(spec) < vmin:
+            vmin = np.min(spec)
+    return vmin
+
+def get_vmax(spec_list):
+    vmax = -torch.inf
+    for spec in spec_list:
+        if np.max(spec) > vmax:
+            vmax = np.max(spec)
+    return vmax
+
+def compare_spectrograms(specs1: list,
+                         specs2: list,
+                         figsize: tuple,
+                         fontsize=None,
+                         suptitle=None,
+                         subtitle1=None,
+                         subtitle2=None,
+                         xlabel='Time',
+                         ylabel='Mel Bins',
+                         colorbar_label='Decibels / dB',
+                         aspect="auto"):
+
+    num_specs = len(specs1) if len(specs1) > len(specs2) else len(specs2)
+    vmin = min(get_vmin(specs1), get_vmin(specs2))
+    vmax = max(get_vmax(specs1), get_vmax(specs2))
+
+    if subtitle1 is not None:
+        assert len(subtitle1) == len(specs1), 'subtitle1 length: {}, specs1 length: {}'.format(len(subtitle1), len(specs1))
+    if subtitle2 is not None:
+        assert len(subtitle2) == len(specs2), 'subtitle2 length: {}, specs2 length: {}'.format(len(subtitle2), len(specs2))
+    
+    fig, axs = plt.subplots(
+        2, num_specs, figsize=figsize)
+
+    for i, spec1 in enumerate(specs1):
+        axs[0, i].set_xticks([])
+        if i == 0:
+            axs[0, i].set_ylabel(ylabel)
+            if subtitle1 is not None:
+                axs[0, i].title.set_text(subtitle1[i])
+        else:
+            axs[0, i].set_yticks([])
+            if subtitle1 is not None:
+                axs[0, i].title.set_text(subtitle1[i])
+                
+        im = axs[0, i].imshow(spec1, origin="lower", aspect=aspect, vmin=vmin, vmax=vmax)
+        
+    for j, spec2 in enumerate(specs2):
+        axs[1, j].set_xlabel(xlabel)
+        if j == 0:
+            axs[1, j].set_ylabel(ylabel)
+            if subtitle2 is not None:
+                axs[1, j].title.set_text(subtitle2[j])
+        else:
+            axs[1, j].set_yticks([])
+            if subtitle2 is not None:
+                axs[1, j].title.set_text(subtitle2[j])
+            if j >= len(specs1):
+                axs[0, j].set_visible(False)
+        im = axs[1, j].imshow(spec2, origin="lower", aspect=aspect, vmin=vmin, vmax=vmax)
+    fig.colorbar(im, ax=axs.ravel().tolist(), label=colorbar_label)
+
+    if suptitle is not None:
+        plt.suptitle(
+            suptitle,
+            fontsize=int(36 * max(figsize) / 32) if fontsize is None else fontsize)
+    plt.show(block=False)
+    return fig
 
 
 class MusicalObjectDataset(Dataset):
