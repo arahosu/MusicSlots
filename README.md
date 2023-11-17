@@ -9,18 +9,20 @@ There are 2 datasets from which you can train your models on, namely:
 1. [Bach Chorales](https://github.com/czhuang/JSB-Chorales-dataset)
 2. [JazzNet](https://github.com/tosiron/jazznet)
 
+Before downloading the datasets, you must first create a `data` folder. You can create it by running `mkdir data` in your terminal. 
+
 ### Single-instrument (Yamaha Grand Piano) version
 
 To download the Bach Chorales piano-only dataset, run the following command:
 
 ```
-bash scripts/load_jsb_single.sh # downloads the mel-spectrograms and the waveform tensors (in .pt format) for each chord inside ./data folder
+bash scripts/load_jsb_single.sh 
 ```
 
 For the Jazznet piano-only dataset, run the following command:
 
 ```
-bash scripts/load_jazznet_single.sh # downloads the mel-spectrograms and the waveform tensors (in .pt format) for each chord inside ./data folder
+bash scripts/load_jazznet_single.sh 
 ```
 
 ### Multi-instrument (Piano, Flute, Violin) version
@@ -28,13 +30,13 @@ bash scripts/load_jazznet_single.sh # downloads the mel-spectrograms and the wav
 To download the multi-instrument Bach Chorales dataset, run the following command:
 
 ```
-bash scripts/load_jsb_multi.sh # downloads the mel-spectrograms and the waveform tensors (in .pt format) for each chord inside ./data folder
+bash scripts/load_jsb_multi.sh
 ```
 
 To download the Jazznet equivalent, run the following command:
 
 ```
-bash scripts/load_jazznet_multi.sh # downloads the mel-spectrograms and the waveform tensors (in .pt format) for each chord inside ./data folder
+bash scripts/load_jazznet_multi.sh 
 ```
 
 ## Dependencies 
@@ -48,10 +50,10 @@ All Python dependencies are listed in the `requirements.txt` file.
 To train MusicSlots, run one of the following commands:
 
 ```
-python3 -m train_slot_attention --dataset=jazznet # Jazznet single-instrument
-python3 -m train_slot_attention --dataset=bach_chorales # Bach Chorales single-instrument
-python3 -m train_slot_attention --dataset=jazznet_multi_inst # Jazznet multi-instrument
-python3 =m train_slot_attention --dataset=bach_chorales_multi_inst  # Bach Chorales single-instrument
+python3 -m train_slot_attention --dataset=jazznet 
+python3 -m train_slot_attention --dataset=bach_chorales 
+python3 -m train_slot_attention --dataset=jazznet_multi_inst 
+python3 =m train_slot_attention --dataset=bach_chorales_multi_inst
 ```
 
 ### VAE
@@ -85,14 +87,14 @@ wandb init
 To reproduce the MusicSlots note discovery and downstream note prediction results in Table 1 and 2 respectively, run the following command:
 
 ```
-wandb sweep experiment_configs/musicslots_sweep.yaml # this creates a unique SWEEP_ID
+wandb sweep experiment_configs/musicslots_sweep.yaml 
 wandb agent SWEEP_ID # run the sweep
 ```
 
 If you want to start multiple runs on multiple GPUs in parallel, you can use the `start_processes_on_gpu.py` script. For example, if you want to run 8 processes on 8 GPUs in parallel, you can run the following command:
 
 ```
-python3 -m start_processes_on_gpu "wandb agent SWEEP_ID" 8 0 1 2 3 4 5 6 7 # the arguments are --command --n_processes --gpu_ids
+python3 -m start_processes_on_gpu "wandb agent SWEEP_ID" 8 0 1 2 3 4 5 6 7 
 ```
 
 To reproduce the VAE results in Table 2, run the following commands:
