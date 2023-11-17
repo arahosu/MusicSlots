@@ -11,7 +11,7 @@ from models.MusicSlots.metrics import best_overlap_mse, best_overlap_iou
 from models.shared.decoder import SimpleDecoder
 from models.shared.encoder import SimpleEncoder, ResNet18, ResNet34
 
-from datasets.bach_chorales_utils import plot_multiple_spectrograms, \
+from dataset import plot_multiple_spectrograms, \
     plot_spectrogram, compare_spectrograms
 
 import os
