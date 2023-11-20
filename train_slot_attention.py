@@ -294,7 +294,7 @@ def main(argv):
         linear=FLAGS.use_linear_classifier)
 
     classifier_cb = [TQDMProgressBar(refresh_rate=10)]
-    classifier_ckpt = ModelCheckpoint(monitor="val_chord_acc", mode="max")
+    classifier_ckpt = ModelCheckpoint(monitor="val_acc", mode="max")
     classifier_cb.append(classifier_ckpt)
 
     trainer = Trainer(
