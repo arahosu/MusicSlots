@@ -1,3 +1,6 @@
+# Create a folder to store the datasets
+mkdir ./data
+
 # Download the Multi-instrument JazzNet Spectrograms
 python3 -m scripts.load_dataset --dataset=jazznet_multi --savedir=./data
 
