@@ -53,7 +53,7 @@ To train MusicSlots, run one of the following commands:
 python3 -m train_slot_attention --dataset=jazznet 
 python3 -m train_slot_attention --dataset=bach_chorales 
 python3 -m train_slot_attention --dataset=jazznet_multi_inst 
-python3 =m train_slot_attention --dataset=bach_chorales_multi_inst
+python3 -m train_slot_attention --dataset=bach_chorales_multi_inst
 ```
 
 ### VAE
