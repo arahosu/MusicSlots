@@ -61,7 +61,7 @@ python3 -m train_slot_attention --dataset=bach_chorales_multi_inst
 To train the [VAE](https://arxiv.org/abs/1312.6114) (Variational AutoEncoder) baseline, run:
 
 ```
-python -m experiments.train_vae 
+python -m train_vae 
 ```
 
 Again, you can train it on different dataets using the `dataset` flag.
@@ -71,7 +71,7 @@ Again, you can train it on different dataets using the `dataset` flag.
 To train a supervised baseline, run:
 
 ```
-python -m experiments.train_supervised_baselines
+python -m train_supervised_baselines
 ```
 
 By default, the script will train the encoder architecture used in the VAE baseline. To train a [VGG](https://arxiv.org/abs/1409.1556) baseline or a [ResNet18](https://arxiv.org/abs/1512.03385) baseline, you can set the flag `backbone` to 'vgg' or 'resnet'. 
